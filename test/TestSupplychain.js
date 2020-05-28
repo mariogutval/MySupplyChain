@@ -53,9 +53,11 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
-
+        
+        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
+        
         // Mark an item as Harvested by calling function harvestItem()
-        await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: accounts[1]})
+        await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originFarmerID})
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -86,6 +88,8 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
+        
+        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
 
         // Mark an item as Processed by calling function processtItem()
         await supplyChain.processItem(upc, {from: originFarmerID})
@@ -113,6 +117,8 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
+        
+        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
 
         // Mark an item as Packed by calling function packItem()
         await supplyChain.packItem(upc, {from: originFarmerID})
@@ -140,6 +146,8 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
+        
+        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
 
         // Mark an item as ForSale by calling function sellItem()
         await supplyChain.sellItem(upc, productPrice, {from: originFarmerID})
@@ -168,6 +176,8 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
+        
+        await supplyChain.addDistributor(distributorID, {from: ownerID})
 
         // Mark an item as Sold by calling function buyItem()
         var PreviousBalance = await web3.eth.getBalance(originFarmerID)
@@ -203,9 +213,10 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true;
         })
 
+        await supplyChain.addDistributor(distributorID, {from: ownerID})
+
         // Mark an item as Shipped by calling function shipItem()
         await supplyChain.shipItem(upc, { from: distributorID })
-
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -230,6 +241,8 @@ contract('SupplyChain', function(accounts) {
         myEvent.on('data', (event) => {
             eventEmitted = true;
         })
+        
+        await supplyChain.addRetailer(retailerID, {from: ownerID})
 
         // Mark an item as Received by calling function receiveItem()
         await supplyChain.receiveItem(upc, { from: retailerID })
@@ -260,6 +273,8 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true;
         })
 
+        await supplyChain.addConsumer(consumerID, {from: ownerID})
+        
         // Mark an item as Purchased by calling function purchaseItem()
         await supplyChain.receiveItem(upc, { from: consumerID })
 
