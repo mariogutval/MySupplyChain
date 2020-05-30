@@ -49,16 +49,13 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Harvested()
-        var myEvent = supplyChain.Harvested() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
-        
+        await supplyChain.Harvested((err, res) => eventEmitted = true);
+
         await supplyChain.addFarmer(originFarmerID, {from: ownerID})
         
         // Mark an item as Harvested by calling function harvestItem()
         await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes, {from: originFarmerID})
-
+        
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
@@ -73,7 +70,8 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferOne[6], originFarmLatitude, 'Error: Missing or Invalid originFarmLatitude')
         assert.equal(resultBufferOne[7], originFarmLongitude, 'Error: Missing or Invalid originFarmLongitude')
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid item State')
-        assert.equal(eventEmitted, true, 'Invalid event emitted')        
+        assert.equal(eventEmitted, true, 'Invalid event emitted') 
+              
     })    
 
     // 2nd Test
@@ -84,13 +82,8 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Processed()
-        var myEvent = supplyChain.Processed() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
+        await supplyChain.Processed((err, res) => eventEmitted = true);
         
-        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
-
         // Mark an item as Processed by calling function processtItem()
         await supplyChain.processItem(upc, {from: originFarmerID})
 
@@ -113,12 +106,7 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Packed()
-        var myEvent = supplyChain.Packed() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
-        
-        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
+        await supplyChain.Packed((err, res) => eventEmitted = true);
 
         // Mark an item as Packed by calling function packItem()
         await supplyChain.packItem(upc, {from: originFarmerID})
@@ -142,13 +130,8 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event ForSale()
-        var myEvent = supplyChain.ForSale() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
+        await supplyChain.ForSale((err, res) => eventEmitted = true);
         
-        await supplyChain.addFarmer(originFarmerID, {from: ownerID})
-
         // Mark an item as ForSale by calling function sellItem()
         await supplyChain.sellItem(upc, productPrice, {from: originFarmerID})
 
@@ -172,10 +155,7 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Sold()
-        var myEvent = supplyChain.Sold() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
+        await supplyChain.Sold((err, res) => eventEmitted = true);
         
         await supplyChain.addDistributor(distributorID, {from: ownerID})
 
@@ -208,15 +188,10 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Shipped()
-        var myEvent = supplyChain.Shipped() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
-
-        await supplyChain.addDistributor(distributorID, {from: ownerID})
+        await supplyChain.Shipped((err, res) => eventEmitted = true);
 
         // Mark an item as Shipped by calling function shipItem()
-        await supplyChain.shipItem(upc, { from: distributorID })
+        await supplyChain.shipItem(upc, {from: distributorID})
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -237,15 +212,12 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Received()
-        var myEvent = supplyChain.Received() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
+        await supplyChain.Received((err, res) => eventEmitted = true);
         
         await supplyChain.addRetailer(retailerID, {from: ownerID})
 
         // Mark an item as Received by calling function receiveItem()
-        await supplyChain.receiveItem(upc, { from: retailerID })
+        await supplyChain.receiveItem(upc, {from: retailerID})
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -268,15 +240,12 @@ contract('SupplyChain', function(accounts) {
         var eventEmitted = false
         
         // Watch the emitted event Purchased()
-        var myEvent = supplyChain.Purchased() 
-        myEvent.on('data', (event) => {
-            eventEmitted = true;
-        })
+        await supplyChain.Purchased((err, res) => eventEmitted = true);
 
         await supplyChain.addConsumer(consumerID, {from: ownerID})
         
         // Mark an item as Purchased by calling function purchaseItem()
-        await supplyChain.receiveItem(upc, { from: consumerID })
+        await supplyChain.purchaseItem(upc, {from: consumerID})
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
