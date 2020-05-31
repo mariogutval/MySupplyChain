@@ -2805,8 +2805,8 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.0",
-  "updatedAt": "2020-05-28T13:21:12.250Z",
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-05-31T14:35:16.580Z",
   "devdoc": {
     "methods": {}
   },
